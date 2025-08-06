@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('CHECKOUT') {
+            steps {
+                echo "This is Checkout stage"
+                sleep 5
+            }
+        }
+
+        stage('BUILD') {
+            steps {
+                echo "This is BUILD stage"
+                sleep 5
+            }
+        }
+
+        stage('Parallel Testing') {
+            parallel {
+                stage('TEST1') {
+                    steps {
+                        echo "This is TEST1 Chrome test stage"
+                        sleep 5
+                    }
+                }
+
+                stage('TEST2') {
+                    steps {
+                        echo "This is TEST2 Firefox test stage"
+                        sleep 5
+                    }
+                }
+
+                stage('TEST3') {
+                    steps {
+                        echo "This is TEST2 Firefox test stage"
+                        sleep 5
+                    }
+                }
+
+                stage('TEST4') {
+                    steps {
+                        echo "This is TEST2 Firefox test stage"
+                        sleep 5
+                    }
+                }
+
+                stage('TEST5') {
+                    steps {
+                        echo "This is TEST2 Firefox test stage"
+                        sleep 5
+                    }
+                }
+
+                stage('TEST2') {
+                    steps {
+                        echo "This is TEST2 Firefox test stage"
+                        sleep 5
+                    }
+                }
+            }
+        }
+    }
+}

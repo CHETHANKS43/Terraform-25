@@ -1,0 +1,5 @@
+bucket_name = "my-s3-backend-bucket-prod"
+ami_id = "ami-0f918f7e67a3323f0"
+instance_type = "t2.micro"
+key_name = "feb-2025"
+instance_name = "TestEC2Instance_new"

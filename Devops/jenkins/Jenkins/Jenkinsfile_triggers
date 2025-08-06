@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    triggers {
+        pollSCM('* * * * *')
+        upstream (
+            upstreamProjects: 'My_job',
+            threshold: hudson.model.Result.SUCCESS
+        )
+        cron('H/5 * * * *')
+    }
+
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '10', daysToKeepStr: '10')) 
+        discardConcurrentBuilds()
+    }
+
+    stages {
+        stage('CHECKOUT1') {
+            steps {
+                checkout([$class: 'GitSCM',
+                            branches: [[name: 'main']],
+                            userRemoteConfigs: [[url: 'https://github.com/jaintpharsha/k8s-ip-app.git',
+                                                credentialsId: 'github_id']]])
+            }
+        }
+
+        stage('CHECK CHECKOUT1') {
+            steps {
+                sh '''
+                    pwd
+                    git branch 
+                    ls -lrt
+                '''
+            }
+        }
+    }
+}

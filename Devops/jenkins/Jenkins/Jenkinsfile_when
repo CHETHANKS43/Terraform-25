@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    
+   
+    parameters {
+        choice(name: 'BRNACH', choices: ['main','production'], description: 'Choose the environment to deploy ?')
+    }
+
+    stages {
+        stage('CHECKOUT') {
+            steps {
+                git branch: params.BRNACH,
+                    credentialsId: 'github_id',
+                    url: 'https://github.com/jaintpharsha/k8s-ip-app.git'
+            }
+        }
+
+        stage('BUILD_MAIN') {
+
+            when {
+                expression { 
+                    return params.BRNACH == 'main' && 
+                    return params.BRNACH != 'test'    
+                }
+            }
+
+            steps {
+                sh '''
+                    echo "SHELL ----> BRNACH: ${BRNACH}"
+                    sudo apt update
+                '''
+            }
+        }
+
+        stage('BUILD_PROD') {
+
+            when {
+                expression { return params.BRNACH == 'production' }
+            }
+
+            steps {
+                sh '''
+                    echo "SHELL ----> BRNACH: ${BRNACH}"
+                '''
+            }
+        }
+    }
+}

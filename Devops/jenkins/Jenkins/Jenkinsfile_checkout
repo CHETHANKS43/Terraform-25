@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    
+   
+    // parameters {
+    //     booleanParam(name: 'CHECKOUT', defaultValue: true, description: 'Do you want to checkout ?')
+    //     choice(name: 'ENV_DEPLOY', choices: ['test','prod'], description: 'Choose the environment to deploy ?')
+    // }
+
+    stages {
+        stage('CHECKOUT1') {
+            steps {
+                checkout([$class: 'GitSCM',
+                            branches: [[name: 'main']],
+                            userRemoteConfigs: [[url: 'https://github.com/jaintpharsha/k8s-ip-app.git',
+                                                credentialsId: 'github_id']]])
+            }
+        }
+
+        stage('CHECK CHECKOUT1') {
+            steps {
+                sh '''
+                    pwd
+                    git branch 
+                    ls -lrt
+                '''
+            }
+        }
+
+        stage('CHECK CHECKOUT2') {
+            steps {
+                sh '''
+                    pwd
+                    git branch 
+                    ls -lrt
+                '''
+            }
+        }
+
+        stage('CHECKOUT2') {
+            steps {
+                git branch: 'main',
+                    credentialsId: 'github_id',
+                    url: 'https://github.com/jaintpharsha/maven.git'
+            }
+        }
+
+        stage('CHECK CHECKOUT maven') {
+            steps {
+                sh '''
+                    pwd
+                    git branch 
+                    ls -lrt
+                '''
+            }
+        }
+    }
+}

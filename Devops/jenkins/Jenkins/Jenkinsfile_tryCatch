@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('STAGE1') {
+            steps {
+               script {
+                    try {
+                        // Risky operation
+                        echo "Trying something risky..."
+                        sh 'exit 1' // This will fail
+                    } catch (or) {
+                        echo "Caught an error: ${or}"
+                    }
+                }
+            }
+        }
+
+        stage('STAGE2') {
+            steps {
+                sh '''
+                    pwd
+                    git branch 
+                    ls -lrt
+                '''
+            }
+        }
+    }
+}

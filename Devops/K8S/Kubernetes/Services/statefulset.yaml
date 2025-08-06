@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: StatefulSet 
+metadata: 
+   name: my-stateful
+spec: 
+   template:
+     metadata:
+        labels:
+           app: my-nginx-1
+     spec:
+        containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+          - containerPort: 80
+   selector:
+      matchLabels:
+         app: my-nginx-1
+   replicas: 5
+
+

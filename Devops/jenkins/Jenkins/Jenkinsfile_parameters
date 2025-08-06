@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    
+   
+    parameters {
+        booleanParam(name: 'BUILD', defaultValue: true, description: 'Do you want to build ?')
+        string(name: 'BRNACH_NAME', defaultValue: 'main', description: 'Enter the branch name to deploy ?')
+        choice(name: 'ENV_DEPLOY', choices: ['test','qa','stagging','prod'], description: 'Choose the environment to deploy ?')
+    }
+
+    stages {
+        stage('CHECKOUT') {
+            steps {
+                echo "GROOVY ----> BARNCH: ${params.BRNACH_NAME}"
+                
+                script {
+                    echo "GROOVY ----> BARNCH: ${params.BRNACH_NAME}"
+                }
+              
+                sh '''
+                    echo "SHELL ----> BARNCH: $BRNACH_NAME"
+                '''
+            }
+        }
+
+        stage('BUILD') {
+            steps {
+                echo "GROOVY ----> BUILD: ${params.BUILD}"
+
+                script {
+                    echo "GROOVY ----> BUILD: ${params.BUILD}"
+                }
+
+                sh '''
+                    echo "SHELL ----> BUILD: ${BUILD}"
+                '''
+            }
+        }
+
+        stage('DEPLOY') {
+            steps {
+                echo "GROOVY ----> ENV_DEPLOY: ${params.ENV_DEPLOY}"
+
+                script {
+                    echo "GROOVY ----> ENV_DEPLOY: ${params.ENV_DEPLOY}"
+                }
+
+                sh '''
+                    echo "SHELL ----> ENV_DEPLOY: ${ENV_DEPLOY}"
+                '''
+            }
+        }
+    }
+}

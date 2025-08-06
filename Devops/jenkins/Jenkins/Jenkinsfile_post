@@ -1,0 +1,60 @@
+boolean dbStatus = true
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('CHECK DB') {
+            steps {
+                script {
+                    def naem = "Harsha"
+                    def count = 5
+                    def isActive = true 
+                    def list = ['one','2']
+                    def map = [id: '32423r3vr', type: 't2.micro']
+
+                    if (dbStatus) {
+                        echo map.id 
+                        echo map['id']
+                    }
+                   try { 
+                        echo "Check the database running or not"
+                    } 
+                    catch (error) {
+                        dbStatus = 'no'
+                    }
+                }
+            }
+        }
+
+        stage('BACKUP DB') {
+            when {
+                expression {
+                    return dbStatus == 'yes' &&  
+                }
+            }
+            steps {
+               echo "Run when STAGE1 is successful"
+            }
+        }
+
+        stage('BACKUP DB') {
+            when {
+                expression {
+                    return dbStatus == true
+                }
+            }
+            steps {
+               echo "Run when STAGE1 is successful"
+            }
+        }
+
+       
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
