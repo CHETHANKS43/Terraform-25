@@ -32,3 +32,28 @@ output "public_ip" {
   value       = { for k, inst in aws_instance.web : k => inst.public_ip }
 }
 
+terraform {
+    backend "s3" {
+        bucket         = "newtesteddd-terraform-state-bucket"
+        key            = "main.tfstate"
+        region         = "ap-south-1"
+        encrypt        = true
+        use_lockfile   = false
+    }
+}
+
+
+variable "bucket_names" {
+  type    = list(string)
+  default = ["my-app-logs1111jjj", "my-app-assetsjjjjjf", "my-app-backupsjfffxff"]
+}
+
+resource "aws_s3_bucket" "buckets" {
+  for_each = toset(var.bucket_names)
+
+  bucket = each.key
+  acl    = "private"
+  tags = {
+    Name = each.key
+  }
+}
